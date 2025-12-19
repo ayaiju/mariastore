@@ -78,12 +78,12 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">TechStore</a>
-            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ms-auto">
-                    <li id="btnAuthContainer">
+                    <li class="nav-item" id="btnAuthContainer">
                         <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">
                             Iniciar sesión / Registrarse
                         </button>
@@ -109,7 +109,7 @@
 
                 <div class="col-md-3">
                     <div class="card h-100 text-center">
-                        <img src="images/lap1.jpg" class="card-img-top">
+                        <img src="images/lap1.jpg" class="card-img-top" alt="Laptop">
                         <div class="card-body">
                             <h5 class="card-title">Laptop Gamer</h5>
                             <p>Intel i7, 16GB RAM</p>
@@ -121,7 +121,7 @@
 
                 <div class="col-md-3">
                     <div class="card h-100 text-center">
-                        <img src="images/raton.jpg" class="card-img-top">
+                        <img src="images/raton.jpg" class="card-img-top" alt="Mouse">
                         <div class="card-body">
                             <h5 class="card-title">Mouse Gamer</h5>
                             <p>RGB 16000 DPI</p>
@@ -146,30 +146,34 @@
 
                 <div class="modal-body">
                     <ul class="nav nav-tabs">
-                        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab"
-                                data-bs-target="#login">Login</button></li>
-                        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
-                                data-bs-target="#register">Registro</button></li>
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#login">Login</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#register">Registro</button>
+                        </li>
                     </ul>
 
                     <div class="tab-content mt-3">
 
+                        <!-- LOGIN -->
                         <div class="tab-pane fade show active" id="login">
                             <button id="googleLogin" class="btn btn-danger w-100 mb-2">
                                 <i class="bi bi-google"></i> Google
                             </button>
                             <form id="formLogin">
-                                <input class="form-control mb-2" id="loginEmail" placeholder="Email" required>
+                                <input class="form-control mb-2" type="email" id="loginEmail" placeholder="Email" required>
                                 <input class="form-control mb-2" type="password" id="loginPassword"
                                     placeholder="Contraseña" required>
                                 <button class="btn btn-primary w-100">Entrar</button>
                             </form>
                         </div>
 
+                        <!-- REGISTRO -->
                         <div class="tab-pane fade" id="register">
                             <form id="formRegister">
                                 <input class="form-control mb-2" id="regNombre" placeholder="Nombre" required>
-                                <input class="form-control mb-2" id="regEmail" placeholder="Email" required>
+                                <input class="form-control mb-2" type="email" id="regEmail" placeholder="Email" required>
                                 <input class="form-control mb-2" type="password" id="regPassword"
                                     placeholder="Contraseña" required>
                                 <button class="btn btn-primary w-100">Registrarse</button>
@@ -202,7 +206,6 @@
             updateProfile,
             sendEmailVerification
         } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-
         import {
             getFirestore,
             doc,
@@ -216,8 +219,7 @@
             projectId: "mariastore-66f36",
             storageBucket: "mariastore-66f36.firebasestorage.app",
             messagingSenderId: "1070630039230",
-            appId: "1:1070630039230:web:1c870d501bd84d4c4978ef",
-            measurementId: "G-7WZL3RCDDG"
+            appId: "1:1070630039230:web:1c870d501bd84d4c4978ef"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -225,45 +227,49 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // GOOGLE LOGIN
+        const googleLogin = document.getElementById("googleLogin");
+        const formRegister = document.getElementById("formRegister");
+        const formLogin = document.getElementById("formLogin");
+        const authModal = document.getElementById("authModal");
+        const btnAuthContainer = document.getElementById("btnAuthContainer");
+
         googleLogin.onclick = async () => {
             const { user } = await signInWithPopup(auth, provider);
             await crearUsuario(user);
+            bootstrap.Modal.getInstance(authModal).hide();
         };
 
-        // REGISTRO CON VERIFICACIÓN
         formRegister.onsubmit = async e => {
             e.preventDefault();
             const cred = await createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value);
             await updateProfile(cred.user, { displayName: regNombre.value });
             await sendEmailVerification(cred.user);
             await crearUsuario(cred.user);
-            alert("📧 Verifica tu correo antes de iniciar sesión");
+            alert("📧 Revisa tu correo y verifica tu cuenta");
             await signOut(auth);
         };
 
-        // LOGIN BLOQUEADO SIN VERIFICACIÓN
         formLogin.onsubmit = async e => {
             e.preventDefault();
             const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
             if (!cred.user.emailVerified) {
-                alert("⚠️ Verifica tu correo");
+                alert("⚠️ Verifica tu correo antes de ingresar");
                 await signOut(auth);
                 return;
             }
             bootstrap.Modal.getInstance(authModal).hide();
         };
 
-        // FIRESTORE
         async function crearUsuario(user) {
             const ref = doc(db, "usuarios", user.uid);
-            if (!(await getDoc(ref)).exists())
+            if (!(await getDoc(ref)).exists()) {
                 await setDoc(ref, {
                     uid: user.uid,
                     nombre: user.displayName,
                     email: user.email,
                     verificado: user.emailVerified
                 });
+            }
         }
 
         onAuthStateChanged(auth, user => {
@@ -272,5 +278,4 @@
     </script>
 
 </body>
-
 </html>
