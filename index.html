@@ -11,63 +11,35 @@
 
     <style>
         body {
-            background-color: #0f172a;
-            color: #e5e7eb;
+            background: #0f172a;
+            color: #e5e7eb
         }
 
         .navbar {
-            background: linear-gradient(90deg, #020617, #1e1b4b);
-        }
-
-        .navbar-brand {
-            color: #6366f1 !important;
-            font-weight: bold;
-        }
-
-        header {
-            background: linear-gradient(135deg, #6366f1, #22c55e);
+            background: linear-gradient(90deg, #020617, #1e1b4b)
         }
 
         .card {
-            background-color: #020617;
-            border: 1px solid #1e293b;
-            transition: .3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, .4);
+            background: #020617;
+            border: 1px solid #1e293b
         }
 
         .card-title {
-            color: #6366f1;
+            color: #6366f1
         }
 
         .btn-primary {
-            background-color: #6366f1;
-            border: none;
+            background: #6366f1;
+            border: none
         }
 
         .btn-primary:hover {
-            background-color: #4f46e5;
+            background: #4f46e5
         }
 
         .modal-content {
-            background-color: #020617;
-            color: #e5e7eb;
-        }
-
-        .nav-tabs .nav-link {
-            color: #94a3b8;
-        }
-
-        .nav-tabs .nav-link.active {
-            background-color: #6366f1;
-            color: #fff;
-        }
-
-        footer {
-            background-color: #020617;
+            background: #020617;
+            color: #fff
         }
     </style>
 </head>
@@ -77,57 +49,44 @@
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">TechStore</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item" id="btnAuthContainer">
-                        <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">
-                            Iniciar sesión / Registrarse
-                        </button>
-                    </li>
-                </ul>
-            </div>
+            <a class="navbar-brand fw-bold text-info">TechStore</a>
+
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item me-3">
+                    <button class="btn btn-outline-info" id="btnCart">
+                        <i class="bi bi-cart"></i> (<span id="cartCount">0</span>)
+                    </button>
+                </li>
+                <li class="nav-item" id="btnAuthContainer">
+                    <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">
+                        Login / Registro
+                    </button>
+                </li>
+                <li class="nav-item d-none" id="userMenu">
+                    <button class="btn btn-danger" id="logoutBtn">Cerrar sesión</button>
+                </li>
+            </ul>
         </div>
     </nav>
-
-    <!-- HERO -->
-    <header class="text-center text-white py-5">
-        <div class="container">
-            <h1 class="display-4">Bienvenido a TechStore</h1>
-            <p class="lead">Tecnología de alto nivel al mejor precio</p>
-        </div>
-    </header>
 
     <!-- PRODUCTOS -->
     <section class="py-5">
         <div class="container">
-            <h2 class="text-center mb-4">Nuestros Productos</h2>
             <div class="row g-4">
 
                 <div class="col-md-3">
-                    <div class="card h-100 text-center">
-                        <img src="images/lap1.jpg" class="card-img-top" alt="Laptop">
-                        <div class="card-body">
-                            <h5 class="card-title">Laptop Gamer</h5>
-                            <p>Intel i7, 16GB RAM</p>
-                            <p class="fw-bold">$999.99</p>
-                            <button class="btn btn-primary">Agregar</button>
-                        </div>
+                    <div class="card text-center p-2">
+                        <h5 class="card-title">Laptop Gamer</h5>
+                        <p>$999</p>
+                        <button class="btn btn-primary" onclick="addToCart('Laptop Gamer',999)">Agregar</button>
                     </div>
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card h-100 text-center">
-                        <img src="images/raton.jpg" class="card-img-top" alt="Mouse">
-                        <div class="card-body">
-                            <h5 class="card-title">Mouse Gamer</h5>
-                            <p>RGB 16000 DPI</p>
-                            <p class="fw-bold">$49.99</p>
-                            <button class="btn btn-primary">Agregar</button>
-                        </div>
+                    <div class="card text-center p-2">
+                        <h5 class="card-title">Mouse Gamer</h5>
+                        <p>$49</p>
+                        <button class="btn btn-primary" onclick="addToCart('Mouse Gamer',49)">Agregar</button>
                     </div>
                 </div>
 
@@ -139,87 +98,60 @@
     <div class="modal fade" id="authModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5>Acceso</h5>
-                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-
                 <div class="modal-body">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#login">Login</button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#register">Registro</button>
-                        </li>
-                    </ul>
 
-                    <div class="tab-content mt-3">
+                    <button id="googleLogin" class="btn btn-danger w-100 mb-2">
+                        <i class="bi bi-google"></i> Continuar con Google
+                    </button>
 
-                        <!-- LOGIN -->
-                        <div class="tab-pane fade show active" id="login">
-                            <button id="googleLogin" class="btn btn-danger w-100 mb-2">
-                                <i class="bi bi-google"></i> Google
-                            </button>
-                            <form id="formLogin">
-                                <input class="form-control mb-2" type="email" id="loginEmail" placeholder="Email" required>
-                                <input class="form-control mb-2" type="password" id="loginPassword"
-                                    placeholder="Contraseña" required>
-                                <button class="btn btn-primary w-100">Entrar</button>
-                            </form>
-                        </div>
+                    <form id="formLogin">
+                        <input id="loginEmail" class="form-control mb-2" type="email" placeholder="Email">
+                        <input id="loginPassword" class="form-control mb-2" type="password" placeholder="Password">
+                        <button class="btn btn-primary w-100">Entrar</button>
+                    </form>
 
-                        <!-- REGISTRO -->
-                        <div class="tab-pane fade" id="register">
-                            <form id="formRegister">
-                                <input class="form-control mb-2" id="regNombre" placeholder="Nombre" required>
-                                <input class="form-control mb-2" type="email" id="regEmail" placeholder="Email" required>
-                                <input class="form-control mb-2" type="password" id="regPassword"
-                                    placeholder="Contraseña" required>
-                                <button class="btn btn-primary w-100">Registrarse</button>
-                            </form>
-                        </div>
+                    <hr>
 
-                    </div>
+                    <form id="formRegister">
+                        <input id="regNombre" class="form-control mb-2" placeholder="Nombre">
+                        <input id="regEmail" class="form-control mb-2" type="email" placeholder="Email">
+                        <input id="regPassword" class="form-control mb-2" type="password" placeholder="Password">
+                        <button class="btn btn-success w-100">Registrarse</button>
+                    </form>
+
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="text-center py-3">
-        &copy; 2025 TechStore
-    </footer>
+    <!-- MODAL CARRITO -->
+    <div class="modal fade" id="cartModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5>🛒 Tu carrito</h5>
+                    <ul id="cartList"></ul>
+                    <button class="btn btn-success w-100" id="confirmOrder">Confirmar pedido</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
         import {
-            getAuth,
-            GoogleAuthProvider,
-            signInWithPopup,
-            signOut,
-            onAuthStateChanged,
-            createUserWithEmailAndPassword,
-            signInWithEmailAndPassword,
-            updateProfile,
-            sendEmailVerification
+            getAuth, GoogleAuthProvider, signInWithPopup, signOut,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            sendEmailVerification, onAuthStateChanged
         } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-        import {
-            getFirestore,
-            doc,
-            setDoc,
-            getDoc
-        } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA4HcF7RPHZiOWkMfyLZ8NrHa5YqieHfc0",
             authDomain: "mariastore-66f36.firebaseapp.com",
-            projectId: "mariastore-66f36",
-            storageBucket: "mariastore-66f36.firebasestorage.app",
-            messagingSenderId: "1070630039230",
-            appId: "1:1070630039230:web:1c870d501bd84d4c4978ef"
+            projectId: "mariastore-66f36"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -227,55 +159,96 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        const googleLogin = document.getElementById("googleLogin");
-        const formRegister = document.getElementById("formRegister");
-        const formLogin = document.getElementById("formLogin");
-        const authModal = document.getElementById("authModal");
-        const btnAuthContainer = document.getElementById("btnAuthContainer");
+        // DOM
+        const authModal = new bootstrap.Modal(document.getElementById("authModal"));
+        const cartModal = new bootstrap.Modal(document.getElementById("cartModal"));
 
+        /* GOOGLE LOGIN CORREGIDO */
         googleLogin.onclick = async () => {
-            const { user } = await signInWithPopup(auth, provider);
-            await crearUsuario(user);
-            bootstrap.Modal.getInstance(authModal).hide();
+            try {
+                const { user } = await signInWithPopup(auth, provider);
+                authModal.hide();
+            } catch (e) {
+                alert("Error Google Login");
+            }
         };
 
-        formRegister.onsubmit = async e => {
-            e.preventDefault();
-            const cred = await createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value);
-            await updateProfile(cred.user, { displayName: regNombre.value });
-            await sendEmailVerification(cred.user);
-            await crearUsuario(cred.user);
-            alert("📧 Revisa tu correo y verifica tu cuenta");
-            await signOut(auth);
-        };
-
+        /* EMAIL LOGIN */
         formLogin.onsubmit = async e => {
             e.preventDefault();
             const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
             if (!cred.user.emailVerified) {
-                alert("⚠️ Verifica tu correo antes de ingresar");
+                alert("Verifica tu correo");
                 await signOut(auth);
-                return;
             }
-            bootstrap.Modal.getInstance(authModal).hide();
+            authModal.hide();
         };
 
-        async function crearUsuario(user) {
-            const ref = doc(db, "usuarios", user.uid);
-            if (!(await getDoc(ref)).exists()) {
-                await setDoc(ref, {
-                    uid: user.uid,
-                    nombre: user.displayName,
-                    email: user.email,
-                    verificado: user.emailVerified
-                });
-            }
+        /* REGISTRO */
+        formRegister.onsubmit = async e => {
+            e.preventDefault();
+            const cred = await createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value);
+            await sendEmailVerification(cred.user);
+            alert("Revisa tu correo");
+            await signOut(auth);
+        };
+
+        /* LOGOUT */
+        logoutBtn.onclick = async () => {
+            await signOut(auth);
+        };
+
+        /* AUTH STATE */
+        onAuthStateChanged(auth, user => {
+            btnAuthContainer.classList.toggle("d-none", !!user);
+            userMenu.classList.toggle("d-none", !user);
+        });
+
+        /* CARRITO */
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        updateCart();
+
+        window.addToCart = (name, price) => {
+            cart.push({ name, price });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        };
+
+        btnCart.onclick = () => {
+            renderCart();
+            cartModal.show();
+        };
+
+        function updateCart() {
+            cartCount.textContent = cart.length;
         }
 
-        onAuthStateChanged(auth, user => {
-            btnAuthContainer.style.display = user ? "none" : "block";
-        });
+        function renderCart() {
+            cartList.innerHTML = "";
+            cart.forEach(p => {
+                cartList.innerHTML += `<li>${p.name} - $${p.price}</li>`;
+            });
+        }
+
+        /* PEDIDO */
+        confirmOrder.onclick = async () => {
+            if (!auth.currentUser) {
+                alert("Debes iniciar sesión");
+                return;
+            }
+            await addDoc(collection(db, "pedidos"), {
+                uid: auth.currentUser.uid,
+                productos: cart,
+                fecha: new Date()
+            });
+            cart = [];
+            localStorage.removeItem("cart");
+            updateCart();
+            cartModal.hide();
+            alert("Pedido enviado ✅");
+        };
     </script>
 
 </body>
+
 </html>
