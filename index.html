@@ -4,114 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maris Store</title>
+    <title>Maria Store</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
     <style>
-        :root {
-            --bg: #0b1220;
-            --card: #111827;
-            --primary: #38bdf8;
-            --secondary: #22c55e;
-            --text: #cbd5f5;
-            --muted: #94a3b8;
-        }
-
         body {
-            background: radial-gradient(circle at top, #0f172a, #020617);
-            color: var(--text);
-            font-family: 'Segoe UI', system-ui;
+            background: #111827;
+            color: #e5e7eb;
         }
 
-        /* NAVBAR */
         .navbar {
-            background: rgba(15, 23, 42, .9);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid #1e293b;
+            background: linear-gradient(90deg, #1e293b, #312e81);
         }
 
-        .navbar-brand {
-            color: var(--primary) !important;
-            font-weight: 700;
-            letter-spacing: .5px;
-        }
-
-        /* BOTONES */
-        .btn-primary {
-            background: linear-gradient(135deg, #38bdf8, #22d3ee);
-            border: none;
-            color: #020617;
-            font-weight: 600;
-        }
-
-        .btn-primary:hover {
-            filter: brightness(1.1);
-        }
-
-        .btn-outline-info {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline-info:hover {
-            background: var(--primary);
-            color: #020617;
-        }
-
-        /* CARDS */
         .card {
-            background: linear-gradient(180deg, #111827, #020617);
-            border: 1px solid #1e293b;
-            border-radius: 16px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 14px;
             transition: .3s;
         }
 
         .card:hover {
-            transform: translateY(-6px) scale(1.01);
-            box-shadow: 0 20px 40px rgba(56, 189, 248, .25);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(99, 102, 241, .25);
+        }
+
+        .card img {
+            border-radius: 12px;
+            height: 160px;
+            object-fit: cover;
         }
 
         .card-title {
-            color: var(--primary);
+            color: #818cf8;
             font-weight: 600;
         }
 
-        /* MODAL */
+        .btn-primary {
+            background: #6366f1;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #4f46e5;
+        }
+
         .modal-content {
-            background: linear-gradient(180deg, #020617, #020617);
-            border: 1px solid #1e293b;
-            border-radius: 18px;
-            color: var(--text);
+            background: #1f2937;
+            color: #fff;
+            border-radius: 14px;
         }
 
-        /* INPUTS */
         .form-control {
-            background: #020617;
-            border: 1px solid #1e293b;
-            color: var(--text);
-        }
-
-        .form-control:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 .15rem rgba(56, 189, 248, .25);
-            background: #020617;
+            background: #111827;
+            border: 1px solid #374151;
             color: #fff;
         }
 
-        /* CARRITO */
-        #cartList li {
-            background: #020617;
-            border: 1px solid #1e293b;
-            padding: 8px 12px;
-            margin-bottom: 6px;
-            border-radius: 10px;
-        }
-
-        /* FOOTER */
-        footer {
-            color: var(--muted);
+        .form-control:focus {
+            background: #111827;
+            color: #fff;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 .15rem rgba(99, 102, 241, .3);
         }
     </style>
 </head>
@@ -119,28 +75,23 @@
 <body>
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand">Maria Store</a>
+            <a class="navbar-brand fw-bold text-info">Maria Store</a>
 
-            <ul class="navbar-nav ms-auto align-items-center gap-2">
-                <li>
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item me-3">
                     <button class="btn btn-outline-info" id="btnCart">
-                        <i class="bi bi-cart"></i>
-                        <span class="badge bg-info text-dark ms-1" id="cartCount">0</span>
+                        <i class="bi bi-cart"></i> (<span id="cartCount">0</span>)
                     </button>
                 </li>
-
-                <li id="btnAuthContainer">
+                <li class="nav-item" id="btnAuthContainer">
                     <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">
                         Login / Registro
                     </button>
                 </li>
-
-                <li id="userMenu" class="d-none">
-                    <button class="btn btn-danger" id="logoutBtn">
-                        <i class="bi bi-box-arrow-right"></i>
-                    </button>
+                <li class="nav-item d-none" id="userMenu">
+                    <button class="btn btn-danger" id="logoutBtn">Cerrar sesión</button>
                 </li>
             </ul>
         </div>
@@ -152,23 +103,23 @@
             <div class="row g-4 justify-content-center">
 
                 <div class="col-md-3">
-                    <div class="card p-3 text-center h-100">
+                    <div class="card text-center p-3 h-100">
+                        <img src="images/laptop.jpg" class="mb-3" alt="Laptop Gamer">
                         <h5 class="card-title">Laptop Gamer</h5>
-                        <p class="text-muted">Intel i7 · 16GB RAM</p>
-                        <h4 class="fw-bold text-info">$999</h4>
+                        <p class="text-light">$999</p>
                         <button class="btn btn-primary mt-auto" onclick="addToCart('Laptop Gamer',999)">
-                            Agregar al carrito
+                            Agregar
                         </button>
                     </div>
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card p-3 text-center h-100">
+                    <div class="card text-center p-3 h-100">
+                        <img src="images/mouse.jpg" class="mb-3" alt="Mouse Gamer">
                         <h5 class="card-title">Mouse Gamer</h5>
-                        <p class="text-muted">RGB · 16000 DPI</p>
-                        <h4 class="fw-bold text-info">$49</h4>
+                        <p class="text-light">$49</p>
                         <button class="btn btn-primary mt-auto" onclick="addToCart('Mouse Gamer',49)">
-                            Agregar al carrito
+                            Agregar
                         </button>
                     </div>
                 </div>
@@ -180,29 +131,29 @@
     <!-- MODAL AUTH -->
     <div class="modal fade" id="authModal">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content p-4">
+            <div class="modal-content">
+                <div class="modal-body">
 
-                <h4 class="text-center mb-3 text-info">Acceso a TechStore</h4>
+                    <button id="googleLogin" class="btn btn-danger w-100 mb-2">
+                        <i class="bi bi-google"></i> Continuar con Google
+                    </button>
 
-                <button id="googleLogin" class="btn btn-danger w-100 mb-3">
-                    <i class="bi bi-google"></i> Continuar con Google
-                </button>
+                    <form id="formLogin">
+                        <input id="loginEmail" class="form-control mb-2" type="email" placeholder="Email">
+                        <input id="loginPassword" class="form-control mb-2" type="password" placeholder="Password">
+                        <button class="btn btn-primary w-100">Entrar</button>
+                    </form>
 
-                <form id="formLogin" class="mb-3">
-                    <input id="loginEmail" class="form-control mb-2" type="email" placeholder="Email">
-                    <input id="loginPassword" class="form-control mb-2" type="password" placeholder="Contraseña">
-                    <button class="btn btn-primary w-100">Entrar</button>
-                </form>
+                    <hr>
 
-                <hr>
+                    <form id="formRegister">
+                        <input id="regNombre" class="form-control mb-2" placeholder="Nombre">
+                        <input id="regEmail" class="form-control mb-2" type="email" placeholder="Email">
+                        <input id="regPassword" class="form-control mb-2" type="password" placeholder="Password">
+                        <button class="btn btn-success w-100">Registrarse</button>
+                    </form>
 
-                <form id="formRegister">
-                    <input id="regNombre" class="form-control mb-2" placeholder="Nombre">
-                    <input id="regEmail" class="form-control mb-2" type="email" placeholder="Email">
-                    <input id="regPassword" class="form-control mb-2" type="password" placeholder="Contraseña">
-                    <button class="btn btn-success w-100">Crear cuenta</button>
-                </form>
-
+                </div>
             </div>
         </div>
     </div>
@@ -210,26 +161,117 @@
     <!-- MODAL CARRITO -->
     <div class="modal fade" id="cartModal">
         <div class="modal-dialog">
-            <div class="modal-content p-4">
-                <h4 class="text-info mb-3">🛒 Tu carrito</h4>
-                <ul id="cartList" class="list-unstyled"></ul>
-                <button class="btn btn-success w-100 mt-2" id="confirmOrder">
-                    Confirmar pedido
-                </button>
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5>🛒 Tu carrito</h5>
+                    <ul id="cartList"></ul>
+                    <button class="btn btn-success w-100" id="confirmOrder">Confirmar pedido</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <footer class="text-center py-4">
-        © 2025 Maria · Tecnología Premium
-    </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- 🔥 JS + FIREBASE (MISMA LÓGICA, SIN CAMBIOS) -->
+    <!-- 🔥 JS EXACTAMENTE IGUAL (NO TOCADO) -->
     <script type="module">
-        // 🔥 TODO EL JS FUNCIONAL QUE YA TENÍAS (NO CAMBIÓ)
-        // (Google login, carrito, pedidos, logout)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import {
+            getAuth, GoogleAuthProvider, signInWithPopup, signOut,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            sendEmailVerification, onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA4HcF7RPHZiOWkMfyLZ8NrHa5YqieHfc0",
+            authDomain: "mariastore-66f36.firebaseapp.com",
+            projectId: "mariastore-66f36"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        const authModal = new bootstrap.Modal(document.getElementById("authModal"));
+        const cartModal = new bootstrap.Modal(document.getElementById("cartModal"));
+
+        googleLogin.onclick = async () => {
+            try {
+                await signInWithPopup(auth, provider);
+                authModal.hide();
+            } catch {
+                alert("Error Google Login");
+            }
+        };
+
+        formLogin.onsubmit = async e => {
+            e.preventDefault();
+            const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
+            if (!cred.user.emailVerified) {
+                alert("Verifica tu correo");
+                await signOut(auth);
+            }
+            authModal.hide();
+        };
+
+        formRegister.onsubmit = async e => {
+            e.preventDefault();
+            const cred = await createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value);
+            await sendEmailVerification(cred.user);
+            alert("Revisa tu correo");
+            await signOut(auth);
+        };
+
+        logoutBtn.onclick = async () => await signOut(auth);
+
+        onAuthStateChanged(auth, user => {
+            btnAuthContainer.classList.toggle("d-none", !!user);
+            userMenu.classList.toggle("d-none", !user);
+        });
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        updateCart();
+
+        window.addToCart = (name, price) => {
+            cart.push({ name, price });
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCart();
+        };
+
+        btnCart.onclick = () => {
+            renderCart();
+            cartModal.show();
+        };
+
+        function updateCart() {
+            cartCount.textContent = cart.length;
+        }
+
+        function renderCart() {
+            cartList.innerHTML = "";
+            cart.forEach(p => {
+                cartList.innerHTML += `<li>${p.name} - $${p.price}</li>`;
+            });
+        }
+
+        confirmOrder.onclick = async () => {
+            if (!auth.currentUser) {
+                alert("Debes iniciar sesión");
+                return;
+            }
+            await addDoc(collection(db, "pedidos"), {
+                uid: auth.currentUser.uid,
+                productos: cart,
+                fecha: new Date()
+            });
+            cart = [];
+            localStorage.removeItem("cart");
+            updateCart();
+            cartModal.hide();
+            alert("Pedido enviado ✅");
+        };
     </script>
 
 </body>
